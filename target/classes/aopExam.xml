@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	
+	
+	
+	<bean id="std" class="com.spring.ex4.StudentImpl" p:name="조정석" p:age="15" p:gradeNum="3" p:classNum="2"/>
+	<bean id="wor" class="com.spring.ex4.WorkerImpl">
+		<property name="name" value="윤아"></property>
+		<property name="age" value="35"></property>
+		<property name="job" value="개발자"></property>	
+	</bean>
+	
+	
+	<bean id="h" class="com.spring.ex4.Hello"/>
+	<bean id="s" class="com.spring.ex4.Start"/>
+	<bean id="e" class="com.spring.ex4.End"/>
+	<bean id="gb" class="com.spring.ex4.Goodbye"/>
+	
+	
+	<!-- s.start()  와 같다 -->
+	<aop:config>
+		<aop:aspect ref="s" order="1">
+			<aop:before method="start" pointcut="execution(* com.spring.ex4.Student*.*())"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
+		<aop:aspect ref="h" order="2">
+			<aop:before method="hello" pointcut="execution(* com.spring.ex4.Student*.*())"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
+		<aop:aspect ref="e">
+			<aop:after method="end" pointcut="execution(* com.spring.ex4.Student*.*())"/>
+		</aop:aspect>
+	</aop:config>
+	
+	
+	<!-- 직원 -->
+	
+	<aop:config>
+		<aop:aspect ref="s">
+			<aop:before method="start" pointcut="execution(* com.spring.ex4.WorkerImpl.*())"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
+		<aop:aspect ref="gb" order="2">
+			<aop:after method="goodbye" pointcut="execution(* com.spring.ex4.WorkerImpl.*())"/>
+		</aop:aspect>
+	</aop:config>
+	
+	
+	<aop:config>
+		<aop:aspect ref="e" order="1">
+			<aop:after method="end" pointcut="execution(* com.spring.ex4.WorkerImpl.*())"/>
+		</aop:aspect>
+	</aop:config>
+	
+
+</beans>
